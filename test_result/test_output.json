@@ -1,0 +1,300 @@
+{
+  "status": "VALIDATION_FAILED",
+  "message": "Processed successfully.",
+  "claim_category": "ค่าโดยสารเครื่องบิน",
+  "missing_documents": [],
+  "validation_results": [
+    {
+      "level": "error",
+      "message": "Global Amount Mismatch: Payload total 135200.0 != Extracted total 85170.00"
+    },
+    {
+      "level": "error",
+      "request_document_id": "RQ-69-00103-1",
+      "message": "Amount Mismatch: Sub-request amount 135200.0 != Extracted amount 85170.00"
+    }
+  ],
+  "extracted_documents": [
+    {
+      "document_class": "ใบเสร็จรับเงิน/ใบกำกับภาษี หรือ บิลเงินสด",
+      "receipt_type": "Airplane",
+      "bdi_association": true,
+      "bdi_tax_id": "0994002729518",
+      "payment_date": "21/01/2026",
+      "vat_numeric_amount": 0.0,
+      "vat_thai_text_amount": null,
+      "has_signature": true,
+      "expense_details": [
+        {
+          "description": "Flight + hotel",
+          "amount": 85170.0
+        }
+      ],
+      "total_amount": 85170.0,
+      "confidence": 0.95,
+      "compliance_audit": [
+        "[WARNING] VAT completeness issue: VAT numeric amount is 0.0, but Thai text amount is missing.",
+        "[WARNING] Expense detail mismatch: 'Flight + hotel' does not align with receipt type 'Airplane'."
+      ],
+      "filename": "RQ-69-00103-1_E-receipt.pdf"
+    },
+    {
+      "document_class": "ใบอนุมัติปฏิบัติงานนอกสถานที่ในระบบ empeo",
+      "empeo_details": {
+        "transaction_date": "21/01/2569 05:04",
+        "document_number": "L260100308",
+        "employee_name": "ประภาพรรณ วิภาวรทิพย์",
+        "employee_id": "10105",
+        "department": "สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน)",
+        "document_type": "ปฏิบัติงานต่างประเทศ",
+        "duration": "03/02/2569 08:00 - 05/02/2569 17:00",
+        "reason": "ร่วมงาน Hackathon in Singapore",
+        "approvers": [
+          "เกศพร สุคตะ (อนุมัติ 22/01/2569 02:26)",
+          "ธนกฤต จินเวช (อนุมัติ 30/01/2569 09:07)",
+          "ธีรณี องอาจกุล (อนุมัติ 31/01/2569 06:58)"
+        ],
+        "status": "อนุมัติ"
+      },
+      "confidence": 0.99,
+      "filename": "RQ-69-00103-1_empeo1.pdf"
+    },
+    {
+      "document_class": "ใบอนุมัติปฏิบัติงานนอกสถานที่ในระบบ empeo",
+      "empeo_details": {
+        "transaction_date": "26/01/2569 11:54",
+        "document_number": "L260100379",
+        "employee_name": "เบญญ์ รักทิศโชค",
+        "employee_id": "10004",
+        "department": "สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > กลุ่มงานฐานข้อมูลและวิเคราะห์ข้อมูล > สายข้อมูลและนวัตกรรม",
+        "document_type": "ปฏิบัติงานต่างประเทศ",
+        "duration": "03/02/2569 08:00 - 05/02/2569 17:00",
+        "reason": "HFPG",
+        "approvers": [
+          "เกศพร สุคตะ (อนุมัติ 27/01/2569 12:33)",
+          "สุธี สุไววิชัยกุล (อนุมัติ 27/01/2569 11:34)",
+          "ธีรณี องอาจกุล (อนุมัติ 27/01/2569 12:51)"
+        ],
+        "status": "อนุมัติ"
+      },
+      "confidence": 0.98,
+      "filename": "RQ-69-00103-1_empeo2.pdf"
+    },
+    {
+      "document_class": "ใบอนุมัติปฏิบัติงานนอกสถานที่ในระบบ empeo",
+      "empeo_details": {
+        "transaction_date": "26/01/2569 12:03",
+        "document_number": "L260100381",
+        "employee_name": "ปัณณิตา เภาโพธวงศา",
+        "employee_id": "10165",
+        "department": "สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > กลุ่มงานฐานการและวิเคราะห์ข้อมูล > สายอำนวยการ",
+        "document_type": "ปฏิบัติงานต่างประเทศ",
+        "duration": "03/02/2569 08:00 - 05/02/2569 17:00",
+        "reason": "เข้าร่วมงาน Hack for Public Good (HFPG) ณ ประเทศสิงคโปร์",
+        "approvers": [
+          "เกศพร สุดตะ (อนุมัติ 27/01/2569 12:33)",
+          "เบญจ รักชาติไตร (อนุมัติ 27/01/2569 06:00)",
+          "สุธี สุโรจน์ชัยกุล (อนุมัติ 27/01/2569 06:54)",
+          "ธีรณี อองกุลกุล (อนุมัติ 28/01/2569 03:00)"
+        ],
+        "status": "อนุมัติ"
+      },
+      "confidence": 0.99,
+      "filename": "RQ-69-00103-1_empeo3.pdf"
+    },
+    {
+      "document_class": "Itinerary",
+      "itinerary_details": {
+        "passenger_names": [
+          "BEN RUKANTICHOKE",
+          "PORNCHAI JANTAWORN",
+          "PUNTHITA LAOHAROJANAWONGSA",
+          "PRAPHAPHAN WIPATAWIT"
+        ],
+        "booking_reference": "73969K",
+        "flights": [
+          {
+            "flight_number": "TG403",
+            "departure": "BKK Suvarnabhumi Airport",
+            "arrival": "SIN Singapore Changi Airport T2",
+            "date": "February 3, 2026",
+            "departure_time": "08:25",
+            "arrival_time": "11:40",
+            "aircraft": "Airbus A350 XWB",
+            "class": "Economy"
+          },
+          {
+            "flight_number": "TG414",
+            "departure": "SIN Singapore Changi Airport T2",
+            "arrival": "BKK Suvarnabhumi Airport",
+            "date": "February 5, 2026",
+            "departure_time": "15:55",
+            "arrival_time": "17:15",
+            "aircraft": "Airbus A321neo",
+            "class": "Economy"
+          }
+        ],
+        "hotel_details": {
+          "hotel_name": "Royal Plaza on Scotts",
+          "confirmation_number": "71364260",
+          "check_in_date": "February 3, 2026",
+          "check_out_date": "February 5, 2026",
+          "address": "25 Scotts Rd, Singapore, 228220, Singapore",
+          "contact_info": "+65-67377966, webbooking@royalplaza.com.sg",
+          "room_details": {
+            "room_type": "1 room, 2 night",
+            "occupancy": "Up to 2 guests with a max. of 2 adults"
+          },
+          "deposit_policy": "SGD 50.00 per day. Refunds for deposits not paid in cash may take 2–4 weeks to process."
+        },
+        "baggage_allowance": {
+          "personal_item": {
+            "max_weight": "1 kg per person",
+            "dimensions": "75 CM (37*25*12 CM)"
+          },
+          "carry_on_baggage": {
+            "max_weight": "7 kg per person",
+            "dimensions": "56*45*25 CM"
+          },
+          "checked_baggage": {
+            "total_weight": "23 kg per person",
+            "dimensions": "158 CM"
+          }
+        }
+      },
+      "confidence": 0.95,
+      "filename": "RQ-69-00103-1_itinerary.pdf"
+    },
+    {
+      "document_class": "กำหนดการ",
+      "schedule_details": {
+        "event_title": "Hack for Public Good (HFPG)",
+        "event_dates": "3-5 กุมภาพันธ์ 2569",
+        "location": "Lifelong Learning Institute (11 Eunos Road 8, Singapore 408601) ประเทศสิงคโปร์",
+        "agenda_items": [
+          "วันที่ 3 กุมภาพันธ์ 2569: เดินทางสู่สนามบิน, ร่วมทำพิธีที่สถานทูตสิงคโปร์, เดินทางสู่ Lifelong Learning Institute, รับประทานอาหารกลางวัน, Hack for Public Good Demo Day, เดินทางสู่ที่พัก",
+          "วันที่ 4 กุมภาพันธ์ 2569: เดินทางสู่ Open Government Product Office, Project showcase and presentations by regional participants, เดินทางกลับที่พัก",
+          "วันที่ 5 กุมภาพันธ์ 2569: เดินทางสู่ Open Government Product Office, พูดคุยกับทางเจ้าหน้าที่สิงคโปร์เกี่ยวกับการร่วมงานในกิจกรรม Hackathon ของ BDI, รับประทานอาหารกลางวัน, เดินทางสู่สนามบิน, ร่วมทำพิธีที่สถานทูตสิงคโปร์"
+        ]
+      },
+      "confidence": 0.95,
+      "filename": "RQ-69-00103-1_กำหนดการ.pdf"
+    },
+    {
+      "document_class": "รายงานการเดินทาง",
+      "travel_report_details": {
+        "title": "รายงานการเดินทางของผู้ปฏิบัติงาน",
+        "purpose": "เข้าร่วมงาน Open Government Products (OGP) Hack for Public Good (HFPG) ณ ประเทศสิงคโปร์",
+        "itinerary": [
+          {
+            "departure_location": "สนามบินสุวรรณภูมิ (BKK)",
+            "departure_datetime": "08:10 3 ก.พ. 69",
+            "arrival_location": "สนามบิน Changi (SIN)",
+            "arrival_datetime": "11:25 3 ก.พ. 69",
+            "activity_description": "เดินทางไปสนามบินเมืองที่จัดงาน"
+          },
+          {
+            "departure_location": "สนามบิน Changi (SIN)",
+            "departure_datetime": "12:40 3 ก.พ. 69",
+            "arrival_location": "โรงแรม Royal Plaza on Scotts",
+            "arrival_datetime": "13:07 3 ก.พ. 69",
+            "activity_description": "เดินทางไปโรงแรมที่พัก"
+          },
+          {
+            "departure_location": "โรงแรม Royal Plaza on Scotts",
+            "departure_datetime": "14:37 3 ก.พ. 69",
+            "arrival_location": "สถานที่จัดงาน Life Long Learning Institute",
+            "arrival_datetime": "14:56 3 ก.พ. 69",
+            "activity_description": "เดินทางจากโรงแรมไปยังสถานที่จัดงาน"
+          },
+          {
+            "departure_location": "สถานที่จัดงาน Life Long Learning Institute",
+            "departure_datetime": "17:22 3 ก.พ. 69",
+            "arrival_location": "โรงแรม Royal Plaza on Scotts",
+            "arrival_datetime": "17:45 3 ก.พ. 69",
+            "activity_description": "เดินทางจากสถานที่จัดงานกลับโรงแรมที่พัก"
+          },
+          {
+            "departure_location": "โรงแรม Royal Plaza on Scotts",
+            "departure_datetime": "08:46 4 ก.พ. 69",
+            "arrival_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "arrival_datetime": "08:56 4 ก.พ. 69",
+            "activity_description": "เดินทางจากโรงแรมไปยังสถานที่จัดงาน OGP"
+          },
+          {
+            "departure_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "departure_datetime": "12:00 4 ก.พ. 69",
+            "arrival_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "arrival_datetime": "13:00 4 ก.พ. 69",
+            "activity_description": "รับประทานอาหารกลางวัน"
+          },
+          {
+            "departure_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "departure_datetime": "13:00 4 ก.พ. 69",
+            "arrival_location": "Gardens by the Bay",
+            "arrival_datetime": "14:00 4 ก.พ. 69",
+            "activity_description": "เดินทางจากสถานที่จัดงาน OGP ไปยัง Gardens by the Bay"
+          },
+          {
+            "departure_location": "Gardens by the Bay",
+            "departure_datetime": "14:00 4 ก.พ. 69",
+            "arrival_location": "Gardens by the Bay",
+            "arrival_datetime": "16:00 4 ก.พ. 69",
+            "activity_description": "เข้าร่วม Social Programme เดินชม Gardens by the Bay"
+          },
+          {
+            "departure_location": "Gardens by the Bay",
+            "departure_datetime": "16:00 4 ก.พ. 69",
+            "arrival_location": "โรงแรม Royal Plaza on Scotts",
+            "arrival_datetime": "17:00 4 ก.พ. 69",
+            "activity_description": "เดินทางจาก Gardens by the Bay กลับโรงแรมที่พัก"
+          },
+          {
+            "departure_location": "โรงแรม Royal Plaza on Scotts",
+            "departure_datetime": "09:30 5 ก.พ. 69",
+            "arrival_location": "Surrey Hills Grocer - ION Orchard",
+            "arrival_datetime": "10:00 5 ก.พ. 69",
+            "activity_description": "เดินทางจากโรงแรมไปยัง Surrey Hills Grocer - ION Orchard"
+          },
+          {
+            "departure_location": "Surrey Hills Grocer - ION Orchard",
+            "departure_datetime": "10:00 5 ก.พ. 69",
+            "arrival_location": "Surrey Hills Grocer - ION Orchard",
+            "arrival_datetime": "12:30 5 ก.พ. 69",
+            "activity_description": "เข้าร่วมประชุมหารือความร่วมมือระหว่าง OGP และชุมชน"
+          },
+          {
+            "departure_location": "Surrey Hills Grocer - ION Orchard",
+            "departure_datetime": "12:30 5 ก.พ. 69",
+            "arrival_location": "โรงแรม Royal Plaza on Scotts",
+            "arrival_datetime": "13:03 5 ก.พ. 69",
+            "activity_description": "เดินทางจาก Surrey Hills Grocer - ION Orchard กลับโรงแรมที่พัก"
+          },
+          {
+            "departure_location": "โรงแรม Royal Plaza on Scotts",
+            "departure_datetime": "13:03 5 ก.พ. 69",
+            "arrival_location": "สนามบิน Changi (SIN)",
+            "arrival_datetime": "13:34 5 ก.พ. 69",
+            "activity_description": "เดินทางจากโรงแรมที่พักไปสนามบินเมืองที่จัดงาน"
+          },
+          {
+            "departure_location": "สนามบิน Changi (SIN)",
+            "departure_datetime": "13:34 5 ก.พ. 69",
+            "arrival_location": "สนามบิน Changi (SIN)",
+            "arrival_datetime": "14:00 5 ก.พ. 69",
+            "activity_description": "รับประทานอาหารกลางวัน"
+          },
+          {
+            "departure_location": "สนามบิน Changi (SIN)",
+            "departure_datetime": "15:55 5 ก.พ. 69",
+            "arrival_location": "สนามบินสุวรรณภูมิ (BKK)",
+            "arrival_datetime": "18:35 5 ก.พ. 69",
+            "activity_description": "เดินทางจากสนามบินเมืองที่จัดงานกลับประเทศไทย (สำเร็จ)"
+          }
+        ]
+      },
+      "confidence": 0.99,
+      "filename": "RQ-69-00103-1_รายงงานเดินทาง.pdf"
+    }
+  ]
+}

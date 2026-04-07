@@ -1,0 +1,215 @@
+{
+  "$defs": {
+    "FlightSegment": {
+      "description": "Individual flight leg details",
+      "properties": {
+        "flight_number": {
+          "description": "Flight number (e.g., FD 3433)",
+          "title": "Flight Number",
+          "type": "string"
+        },
+        "airline": {
+          "description": "Airline name (e.g., AirAsia)",
+          "title": "Airline",
+          "type": "string"
+        },
+        "origin_airport": {
+          "description": "Departure airport code (e.g., DMK)",
+          "title": "Origin Airport",
+          "type": "string"
+        },
+        "destination_airport": {
+          "description": "Arrival airport code (e.g., CNX)",
+          "title": "Destination Airport",
+          "type": "string"
+        },
+        "origin_city": {
+          "description": "Departure city (e.g., Bangkok)",
+          "title": "Origin City",
+          "type": "string"
+        },
+        "destination_city": {
+          "description": "Arrival city (e.g., Chiang Mai)",
+          "title": "Destination City",
+          "type": "string"
+        },
+        "departure_time": {
+          "description": "Departure time (e.g., 13:10)",
+          "title": "Departure Time",
+          "type": "string"
+        },
+        "arrival_time": {
+          "description": "Arrival time (e.g., 14:25)",
+          "title": "Arrival Time",
+          "type": "string"
+        },
+        "flight_date": {
+          "description": "Date of the flight (e.g., Wed, Oct 08)",
+          "title": "Flight Date",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Flight duration (e.g., 1h 15m)",
+          "title": "Duration",
+          "type": "string"
+        },
+        "cabin_class": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Cabin class (e.g., Economy, Economy Promo)",
+          "title": "Cabin Class"
+        }
+      },
+      "required": [
+        "flight_number",
+        "airline",
+        "origin_airport",
+        "destination_airport",
+        "origin_city",
+        "destination_city",
+        "departure_time",
+        "arrival_time",
+        "flight_date",
+        "duration"
+      ],
+      "title": "FlightSegment",
+      "type": "object"
+    },
+    "Guest": {
+      "description": "Individual passenger details",
+      "properties": {
+        "name": {
+          "description": "Full name of the passenger",
+          "title": "Name",
+          "type": "string"
+        },
+        "passenger_type": {
+          "description": "Type of passenger: adult, child, infant",
+          "title": "Passenger Type",
+          "type": "string"
+        },
+        "trip_addons": {
+          "description": "Add-ons and seat allocations for each flight leg",
+          "items": {
+            "$ref": "#/$defs/TripAddon"
+          },
+          "title": "Trip Addons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "passenger_type",
+        "trip_addons"
+      ],
+      "title": "Guest",
+      "type": "object"
+    },
+    "TripAddon": {
+      "description": "Add-ons for a specific flight leg",
+      "properties": {
+        "flight_route": {
+          "description": "The specific route this applies to, e.g., 'Bangkok - Don Mueang to Chiang Mai'",
+          "title": "Flight Route",
+          "type": "string"
+        },
+        "seat": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Seat number (e.g., '6E', '7D')",
+          "title": "Seat"
+        },
+        "baggage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Baggage allowance (e.g., '7 kg Carry-on baggage')",
+          "title": "Baggage"
+        },
+        "meal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Meal preference if any",
+          "title": "Meal"
+        },
+        "other_services": {
+          "description": "Any other services or extras purchased",
+          "items": {
+            "type": "string"
+          },
+          "title": "Other Services",
+          "type": "array"
+        }
+      },
+      "required": [
+        "flight_route"
+      ],
+      "title": "TripAddon",
+      "type": "object"
+    }
+  },
+  "description": "Complete flight booking information",
+  "properties": {
+    "booking_number": {
+      "description": "Booking reference or PNR (e.g., J8P8KS)",
+      "title": "Booking Number",
+      "type": "string"
+    },
+    "booking_date": {
+      "description": "Date when booking was made (e.g., 02 Oct 2025)",
+      "title": "Booking Date",
+      "type": "string"
+    },
+    "flight_segments": {
+      "description": "All flight legs in the itinerary (outbound and return)",
+      "items": {
+        "$ref": "#/$defs/FlightSegment"
+      },
+      "title": "Flight Segments",
+      "type": "array"
+    },
+    "guests": {
+      "description": "All passengers on this booking with their individual add-ons per flight",
+      "items": {
+        "$ref": "#/$defs/Guest"
+      },
+      "title": "Guests",
+      "type": "array"
+    }
+  },
+  "required": [
+    "booking_number",
+    "booking_date",
+    "flight_segments",
+    "guests"
+  ],
+  "title": "FlightBooking",
+  "type": "object"
+}

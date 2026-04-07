@@ -1,0 +1,150 @@
+Creating virtual environment...
+Installing requirements...
+Collecting fastapi (from -r requirements.txt (line 1))
+  Downloading fastapi-0.124.4-py3-none-any.whl.metadata (30 kB)
+Collecting uvicorn (from -r requirements.txt (line 2))
+  Downloading uvicorn-0.38.0-py3-none-any.whl.metadata (6.8 kB)
+Collecting python-multipart (from -r requirements.txt (line 3))
+  Downloading python_multipart-0.0.20-py3-none-any.whl.metadata (1.8 kB)
+Collecting openai (from -r requirements.txt (line 4))
+  Downloading openai-2.11.0-py3-none-any.whl.metadata (29 kB)
+Collecting pymupdf (from -r requirements.txt (line 5))
+  Downloading pymupdf-1.26.7-cp310-abi3-manylinux_2_28_x86_64.whl.metadata (3.4 kB)
+Collecting python-dotenv (from -r requirements.txt (line 6))
+  Using cached python_dotenv-1.2.1-py3-none-any.whl.metadata (25 kB)
+Collecting tiktoken (from -r requirements.txt (line 7))
+  Using cached tiktoken-0.12.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (6.7 kB)
+Collecting starlette<0.51.0,>=0.40.0 (from fastapi->-r requirements.txt (line 1))
+  Downloading starlette-0.50.0-py3-none-any.whl.metadata (6.3 kB)
+Collecting pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4 (from fastapi->-r requirements.txt (line 1))
+  Downloading pydantic-2.12.5-py3-none-any.whl.metadata (90 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 1.6 MB/s eta 0:00:00
+Collecting typing-extensions>=4.8.0 (from fastapi->-r requirements.txt (line 1))
+  Using cached typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting annotated-doc>=0.0.2 (from fastapi->-r requirements.txt (line 1))
+  Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+Collecting click>=7.0 (from uvicorn->-r requirements.txt (line 2))
+  Downloading click-8.3.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting h11>=0.8 (from uvicorn->-r requirements.txt (line 2))
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting anyio<5,>=3.5.0 (from openai->-r requirements.txt (line 4))
+  Downloading anyio-4.12.0-py3-none-any.whl.metadata (4.3 kB)
+Collecting distro<2,>=1.7.0 (from openai->-r requirements.txt (line 4))
+  Using cached distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+Collecting httpx<1,>=0.23.0 (from openai->-r requirements.txt (line 4))
+  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting jiter<1,>=0.10.0 (from openai->-r requirements.txt (line 4))
+  Using cached jiter-0.12.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.2 kB)
+Collecting sniffio (from openai->-r requirements.txt (line 4))
+  Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+Collecting tqdm>4 (from openai->-r requirements.txt (line 4))
+  Using cached tqdm-4.67.1-py3-none-any.whl.metadata (57 kB)
+Collecting regex>=2022.1.18 (from tiktoken->-r requirements.txt (line 7))
+  Using cached regex-2025.11.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+Collecting requests>=2.26.0 (from tiktoken->-r requirements.txt (line 7))
+  Using cached requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+Collecting idna>=2.8 (from anyio<5,>=3.5.0->openai->-r requirements.txt (line 4))
+  Using cached idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+Collecting certifi (from httpx<1,>=0.23.0->openai->-r requirements.txt (line 4))
+  Downloading certifi-2025.11.12-py3-none-any.whl.metadata (2.5 kB)
+Collecting httpcore==1.* (from httpx<1,>=0.23.0->openai->-r requirements.txt (line 4))
+  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Collecting annotated-types>=0.6.0 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi->-r requirements.txt (line 1))
+  Using cached annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+Collecting pydantic-core==2.41.5 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi->-r requirements.txt (line 1))
+  Using cached pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.3 kB)
+Collecting typing-inspection>=0.4.2 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi->-r requirements.txt (line 1))
+  Using cached typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+Collecting charset_normalizer<4,>=2 (from requests>=2.26.0->tiktoken->-r requirements.txt (line 7))
+  Using cached charset_normalizer-3.4.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+Collecting urllib3<3,>=1.21.1 (from requests>=2.26.0->tiktoken->-r requirements.txt (line 7))
+  Downloading urllib3-2.6.2-py3-none-any.whl.metadata (6.6 kB)
+Downloading fastapi-0.124.4-py3-none-any.whl (113 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 113.3/113.3 kB 4.0 MB/s eta 0:00:00
+Downloading uvicorn-0.38.0-py3-none-any.whl (68 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.1/68.1 kB 6.4 MB/s eta 0:00:00
+Downloading python_multipart-0.0.20-py3-none-any.whl (24 kB)
+Downloading openai-2.11.0-py3-none-any.whl (1.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 9.0 MB/s eta 0:00:00
+Downloading pymupdf-1.26.7-cp310-abi3-manylinux_2_28_x86_64.whl (24.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 24.1/24.1 MB 20.9 MB/s eta 0:00:00
+Using cached python_dotenv-1.2.1-py3-none-any.whl (21 kB)
+Using cached tiktoken-0.12.0-cp312-cp312-manylinux_2_28_x86_64.whl (1.2 MB)
+Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+Downloading anyio-4.12.0-py3-none-any.whl (113 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 113.4/113.4 kB 8.5 MB/s eta 0:00:00
+Downloading click-8.3.1-py3-none-any.whl (108 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 108.3/108.3 kB 10.6 MB/s eta 0:00:00
+Using cached distro-1.9.0-py3-none-any.whl (20 kB)
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 7.2 MB/s eta 0:00:00
+Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 8.8 MB/s eta 0:00:00
+Using cached jiter-0.12.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (361 kB)
+Downloading pydantic-2.12.5-py3-none-any.whl (463 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 463.6/463.6 kB 21.6 MB/s eta 0:00:00
+Using cached pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+Using cached regex-2025.11.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (803 kB)
+Using cached requests-2.32.5-py3-none-any.whl (64 kB)
+Downloading starlette-0.50.0-py3-none-any.whl (74 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 74.0/74.0 kB 5.2 MB/s eta 0:00:00
+Using cached tqdm-4.67.1-py3-none-any.whl (78 kB)
+Using cached typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+Using cached annotated_types-0.7.0-py3-none-any.whl (13 kB)
+Downloading certifi-2025.11.12-py3-none-any.whl (159 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 159.4/159.4 kB 8.2 MB/s eta 0:00:00
+Using cached charset_normalizer-3.4.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (153 kB)
+Using cached idna-3.11-py3-none-any.whl (71 kB)
+Using cached typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+Downloading urllib3-2.6.2-py3-none-any.whl (131 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 131.2/131.2 kB 7.4 MB/s eta 0:00:00
+Installing collected packages: urllib3, typing-extensions, tqdm, sniffio, regex, python-multipart, python-dotenv, pymupdf, jiter, idna, h11, distro, click, charset_normalizer, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, requests, pydantic-core, httpcore, anyio, tiktoken, starlette, pydantic, httpx, openai, fastapi
+Successfully installed annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.12.0 certifi-2025.11.12 charset_normalizer-3.4.4 click-8.3.1 distro-1.9.0 fastapi-0.124.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 jiter-0.12.0 openai-2.11.0 pydantic-2.12.5 pydantic-core-2.41.5 pymupdf-1.26.7 python-dotenv-1.2.1 python-multipart-0.0.20 regex-2025.11.3 requests-2.32.5 sniffio-1.3.1 starlette-0.50.0 tiktoken-0.12.0 tqdm-4.67.1 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.6.2 uvicorn-0.38.0
+Starting API...
+INFO:     Will watch for changes in these directories: ['/home/songphon/poc-app/content-process-api/poc-local-api']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [33443] using StatReload
+/home/songphon/poc-app/content-process-api/poc-local-api/venv/lib/python3.12/site-packages/pydantic/main.py:1809: UserWarning: Field name "schema" in "Body_process_document_api_v1_process_post" shadows an attribute in parent "BaseModel"
+  return meta(
+INFO:     Started server process [33445]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+Starting processing for test.pdf...
+/home/songphon/poc-app/content-process-api/poc-local-api/venv/lib/python3.12/site-packages/pydantic/main.py:1809: UserWarning: Field name "schema" in "Body_process_document_api_v1_process_post" shadows an attribute in parent "BaseModel"
+  return meta(
+Finished processing for test.pdf in 10.29s
+INFO:     127.0.0.1:51078 - "POST /api/v1/process HTTP/1.1" 200 OK
+Process SpawnProcess-1:1:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/lib/python3.12/concurrent/futures/process.py", line 251, in _process_worker
+    call_item = call_queue.get(block=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/queues.py", line 103, in get
+    res = self._recv_bytes()
+          ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 216, in recv_bytes
+    buf = self._recv_bytes(maxlength)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 395, in _recv
+    chunk = read(handle, remaining)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+DEBUG: Opened PDF, found 1 pages
+DEBUG: Processing page 1/1
+DEBUG: Sending 2 content parts to model (1 text + 1 images)
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [33445]
+INFO:     Stopping reloader process [33443]
+/usr/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 5 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
