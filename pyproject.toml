@@ -1,0 +1,23 @@
+[project]
+name = "work"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "arize-phoenix>=13.21.0",
+    "arize-phoenix-evals==2.12.0",
+    "arize-phoenix-otel>=0.15.0",
+    "ddtrace>=4.6.6",
+    "fastapi>=0.135.3",
+    "google-genai>=1.70.0",
+    "openai>=2.30.0",
+    "openinference-instrumentation-langchain>=0.1.62",
+    "openinference-instrumentation-openai>=0.1.44",
+    "pymupdf>=1.27.2.2",
+    "python-dotenv>=1.2.2",
+    "python-multipart>=0.0.24",
+    "requests>=2.33.1",
+    "tiktoken>=0.12.0",
+    "uvicorn>=0.44.0",
+]

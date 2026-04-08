@@ -61,9 +61,9 @@ payload = {
     ]
 }
 
-print(f"Sending request to {URL} with true positive data (using gpt-4o)...")
+print(f"Sending request to {URL} with true positive data (using gemini)...")
 try:
-    response = requests.post(URL, json=payload, headers={"Content-Type": "application/json"}, params={"model_provider": "gpt-4o"})
+    response = requests.post(URL, json=payload, headers={"Content-Type": "application/json"}, params={"model_provider": "gemini"})
     print(f"Status Code: {response.status_code}")
     
     os.makedirs("test_result", exist_ok=True)

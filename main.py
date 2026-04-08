@@ -3,7 +3,8 @@ import shutil
 import tempfile
 import os
 import time
-import phoenix 
+import phoenix
+
 
 from dotenv import load_dotenv
 from concurrent.futures import ProcessPoolExecutor
@@ -141,11 +142,7 @@ async def process_document(
                 print(f"Warning: Failed to delete temp file {temp_path}: {e}")
 
 
-if __name__ == "__main__":
-    import uvicorn
-    # Instrument the app just before running
-    # FastAPIInstrumentor.instrument_app(app)
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
 
 from typing import List
 
@@ -305,3 +302,8 @@ async def classify_claim_endpoint(
                 except Exception as e:
                     logger.warning(f"Failed to delete temp file {path}: {e}")
 
+if __name__ == "__main__":
+    import uvicorn
+    # Instrument the app just before running
+    # FastAPIInstrumentor.instrument_app(app)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
