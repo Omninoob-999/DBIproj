@@ -3,6 +3,7 @@ import shutil
 import tempfile
 import os
 import time
+from venv import logger
 import phoenix
 
 
@@ -24,8 +25,10 @@ logging.basicConfig(level=logging.INFO)
 session = phoenix.launch_app()
 
 # Initialize Telemetry
-telemetry.setup_telemetry()
+#telemetry.setup_telemetry()
 logger = logging.getLogger("app.main")
+
+#Phoenix Otel Tracing
 tracer_provider = register(project_name="BDI_Docprocess", auto_instrument=True)
 
 app = FastAPI(title="Stateless Extraction Service POC")
@@ -46,7 +49,7 @@ def core_extraction_logic(file_path: str, filename: str, extractor_type: str = "
     CPU-BOUND BLOCK: This runs in a separate process.
     """
     # Re-initialize telemetry for this worker process
-    telemetry.setup_telemetry()
+    #telemetry.setup_telemetry()
     worker_logger = logging.getLogger("app.worker")
 
     try:
@@ -117,8 +120,8 @@ async def process_document(
 
         # Record metrics
         status = "success"
-        telemetry.document_processed_total.add(1, {"status": status, "extractor_type": extractor_type, "file_type": file.filename.split('.')[-1].lower()})
-        telemetry.document_processing_duration_seconds.record(duration, {"extractor_type": extractor_type, "file_type": file.filename.split('.')[-1].lower()})
+        #telemetry.document_processed_total.add(1, {"status": status, "extractor_type": extractor_type, "file_type": file.filename.split('.')[-1].lower()})
+        #telemetry.document_processing_duration_seconds.record(duration, {"extractor_type": extractor_type, "file_type": file.filename.split('.')[-1].lower()})
 
         return {
             "status": "success",
@@ -129,7 +132,7 @@ async def process_document(
     except Exception as e:
         logger.error(f"Error processing request: {e}", exc_info=True)
         # Record failure metric
-        telemetry.document_processed_total.add(1, {"status": "failure", "extractor_type": extractor_type, "file_type": file.filename.split('.')[-1].lower()})
+        #telemetry.document_processed_total.add(1, {"status": "failure", "extractor_type": extractor_type, "file_type": file.filename.split('.')[-1].lower()})
         raise HTTPException(status_code=500, detail=str(e))
 
     finally:
@@ -187,7 +190,7 @@ def core_classification_logic(file_paths: List[str], filenames: List[str], paylo
     """
     CPU-BOUND BLOCK: This runs in a separate process for classification.
     """
-    telemetry.setup_telemetry()
+    #telemetry.setup_telemetry()
     worker_logger = logging.getLogger("app.worker")
     
     try:
