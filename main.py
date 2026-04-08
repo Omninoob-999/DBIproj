@@ -3,6 +3,9 @@ import shutil
 import tempfile
 import os
 import time
+import phoenix 
+
+from dotenv import load_dotenv
 from concurrent.futures import ProcessPoolExecutor
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from pydantic import BaseModel, Field
@@ -12,15 +15,17 @@ import base64
 from workflows.three_tier import process_document as three_tier_process_document
 from workflows.claim_batch import process_claim_batch
 import telemetry
-
+from phoenix.otel import register
 import logging
+load_dotenv()
 # Ensure standard formatting for the main application
 logging.basicConfig(level=logging.INFO)
-
+session = phoenix.launch_app()
 
 # Initialize Telemetry
 telemetry.setup_telemetry()
 logger = logging.getLogger("app.main")
+tracer_provider = register(project_name="BDI_Docprocess", auto_instrument=True)
 
 app = FastAPI(title="Stateless Extraction Service POC")
 
