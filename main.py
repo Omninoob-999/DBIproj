@@ -28,10 +28,12 @@ app = FastAPI(title="Stateless Extraction Service POC")
 # limit max_workers to prevent CPU thrashing
 process_pool = ProcessPoolExecutor(max_workers=os.cpu_count())
 
+
 class ExtractionResponse(BaseModel):
     status: str
     metadata_echo: Optional[str] = None
     extracted_data: Dict[str, Any]
+
 
 def core_extraction_logic(file_path: str, filename: str, extractor_type: str = "gemini") -> dict:
     """
@@ -57,9 +59,11 @@ def core_extraction_logic(file_path: str, filename: str, extractor_type: str = "
         traceback.print_exc()
         raise e
 
+
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
+
 
 @app.post("/api/v1/process", response_model=ExtractionResponse)
 async def process_document(
@@ -73,7 +77,7 @@ async def process_document(
         # Also check filename extension as fallback
         ext = file.filename.lower().split('.')[-1]
         if ext not in ['pdf', 'png', 'jpg', 'jpeg', 'webp', 'gif']:
-             raise HTTPException(status_code=400, detail="Invalid file type. Supported: PDF, PNG, JPEG, WEBP, GIF")
+            raise HTTPException(status_code=400, detail="Invalid file type. Supported: PDF, PNG, JPEG, WEBP, GIF")
 
     # 1. Stream file to disk (Memory safe for large files)
     # We use delete=False so we can pass the path to the worker process
@@ -132,7 +136,6 @@ async def process_document(
                 print(f"Warning: Failed to delete temp file {temp_path}: {e}")
 
 
-
 if __name__ == "__main__":
     import uvicorn
     # Instrument the app just before running
@@ -142,11 +145,15 @@ if __name__ == "__main__":
 from typing import List
 
 # --- 1. Define Attachment Model ---
+
+
 class Attachment(BaseModel):
     filename: str
     base64: str  # The base64 encoded string of the file
 
 # --- 2. Define Sub-Request (Request Document) Model ---
+
+
 class RequestDocument(BaseModel):
     request_document_id: str = Field(..., description="e.g., RQ-69-00103-1")
     activity: str = Field(..., description="e.g., ค่าใช้จ่ายเดินทางอื่นๆในประเทศ")
@@ -156,11 +163,14 @@ class RequestDocument(BaseModel):
     attachments: List[Attachment] = Field(default_factory=list)
 
 # --- 3. Define Base Request Model ---
+
+
 class ClaimSubmitRequest(BaseModel):
     request_id: str = Field(..., description="e.g., RQ-69-00103")
     amount_total: float = Field(...)
     attachments: List[Attachment] = Field(default_factory=list)
     request_documents: List[RequestDocument] = Field(..., description="List of sub requests")
+
 
 class ClassificationResponse(BaseModel):
     status: str
@@ -169,6 +179,7 @@ class ClassificationResponse(BaseModel):
     missing_documents: List[str]
     validation_results: Optional[List[Dict[str, Any]]] = Field(default_factory=list)
     extracted_documents: List[Dict[str, Any]]
+
 
 def core_classification_logic(file_paths: List[str], filenames: List[str], payload: dict = None, model_provider: str = "gemini") -> dict:
     """
@@ -192,6 +203,7 @@ def core_classification_logic(file_paths: List[str], filenames: List[str], paylo
         import traceback
         traceback.print_exc()
         raise e
+
 
 @app.post("/api/v1/classify_claim", response_model=ClassificationResponse)
 async def classify_claim_endpoint(
