@@ -35,7 +35,7 @@ graph TD
 -   Python 3.11+ (if running locally)
 -   Docker (if running containerized)
 -   Google Gemini API Key or OpenAI API Key
--   (Optional) Datadog API Key for telemetry
+-   (Optional) Phoenix API Key for telemetry
 
 ## Installation & Local Setup
 
@@ -51,21 +51,9 @@ AZURE_OPENAI_ENDPOINT=your_azure_openai_endpoint
 AZURE_OPENAI_DEPLOYMENT_NAME=your_azure_openai_deployment_name
 
 # Optional: Observability
-DD_API_KEY=your_datadog_api_key
-DD_SITE=us3.datadoghq.com
-DD_SERVICE=content-process-api
-DD_LLMOBS_ML_APP=content-process
-DD_ENV=dev
-DD_VERSION=1.0.1
-DD_SOURCE=python
-DD_TAGS=app:content-process,team:bdi-dev
-DD_LOGS_ENABLED=true
-DD_LOGS_INJECTION=true
-DD_TRACE_SAMPLE_RATE=1.0
-DD_TRACE_ENABLED=1
-DD_PROFILING_ENABLED=true
-PYTHONUNBUFFERED=1
-PYTHONDONTWRITEBYTECODE=1
+PHOENIX_API_KEY
+PHOENIX_COLLECTOR_ENDPOINT
+PHOENIX_GRPC_PORT
 ```
 
 ## Docker Support
