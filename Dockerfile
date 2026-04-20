@@ -19,7 +19,7 @@ RUN pip install --no-cache-dir uv
 COPY requirements.txt .
 
 # Install dependencies using uv
-RUN uv pip install --system -r requirements.txt
+RUN  uv pip install -r pyproject.toml
 
 # Copy application code
 COPY . .

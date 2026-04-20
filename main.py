@@ -6,7 +6,7 @@ import time
 from venv import logger
 import phoenix
 
-
+from typing import List
 from dotenv import load_dotenv
 from concurrent.futures import ProcessPoolExecutor
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
@@ -16,7 +16,6 @@ import base64
 
 from workflows.three_tier import process_document as three_tier_process_document
 from workflows.claim_batch import process_claim_batch
-import telemetry
 from phoenix.otel import register
 import logging
 load_dotenv()
@@ -24,12 +23,10 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 session = phoenix.launch_app()
 
-# Initialize Telemetry
-#telemetry.setup_telemetry()
 logger = logging.getLogger("app.main")
 
 #Phoenix Otel Tracing
-tracer_provider = register(project_name="BDI_Docprocess", auto_instrument=True)
+tracer_provider = register(project_name="BDI_ProcessDocs", auto_instrument=True)
 
 app = FastAPI(title="Stateless Extraction Service POC")
 
@@ -76,7 +73,7 @@ async def health_check():
 
 @app.post("/api/v1/process", response_model=ExtractionResponse)
 async def process_document(
-    file: UploadFile = File(...), 
+    file: UploadFile = File(...),
     meta_data: Optional[str] = Form(None),
     extractor_type: str = Form("gemini", description="One of 'gemini' (default) or 'threetier'")
 ):
@@ -95,7 +92,7 @@ async def process_document(
         temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
         shutil.copyfileobj(file.file, temp_file)
         temp_path = temp_file.name
-        temp_file.close() # Close handle so worker can open it
+        temp_file.close()  # Close handle so worker can open it
 
         # 2. Offload to Process Pool
         # run_in_executor bridges AsyncIO (FastAPI) and Multiprocessing
@@ -120,8 +117,6 @@ async def process_document(
 
         # Record metrics
         status = "success"
-        #telemetry.document_processed_total.add(1, {"status": status, "extractor_type": extractor_type, "file_type": file.filename.split('.')[-1].lower()})
-        #telemetry.document_processing_duration_seconds.record(duration, {"extractor_type": extractor_type, "file_type": file.filename.split('.')[-1].lower()})
 
         return {
             "status": "success",
@@ -132,7 +127,6 @@ async def process_document(
     except Exception as e:
         logger.error(f"Error processing request: {e}", exc_info=True)
         # Record failure metric
-        #telemetry.document_processed_total.add(1, {"status": "failure", "extractor_type": extractor_type, "file_type": file.filename.split('.')[-1].lower()})
         raise HTTPException(status_code=500, detail=str(e))
 
     finally:
@@ -146,8 +140,6 @@ async def process_document(
 
 
 
-
-from typing import List
 
 # --- 1. Define Attachment Model ---
 
@@ -190,19 +182,18 @@ def core_classification_logic(file_paths: List[str], filenames: List[str], paylo
     """
     CPU-BOUND BLOCK: This runs in a separate process for classification.
     """
-    #telemetry.setup_telemetry()
     worker_logger = logging.getLogger("app.worker")
-    
+
     try:
         file_contents = []
         for file_path in file_paths:
             with open(file_path, "rb") as f:
                 file_contents.append(f.read())
-                
+
         # Call the new unified orchestrator in claim_batch
         final_result = process_claim_batch(file_contents, filenames, payload, model_provider)
         return final_result
-        
+
     except Exception as e:
         worker_logger.error(f"Classification Error: {e}")
         import traceback
@@ -217,13 +208,13 @@ async def classify_claim_endpoint(
 ):
     loop = asyncio.get_running_loop()
     start_time = time.time()
-    
+
     temp_paths = []
     filenames = []
-    
+
     try:
         logger.info(f"Processing Claim: {payload.request_id} with Total Amount: {payload.amount_total}")
-        
+
         # 1. Process base request attachments (if any)
         for attachment in payload.attachments:
             try:
@@ -231,7 +222,7 @@ async def classify_claim_endpoint(
                 b64_data = attachment.base64
                 if "," in b64_data:
                     b64_data = b64_data.split(",", 1)[1]
-                    
+
                 file_bytes = base64.b64decode(b64_data)
                 suffix = f"_{attachment.filename}"
                 temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
@@ -250,7 +241,7 @@ async def classify_claim_endpoint(
                     b64_data = doc_attachment.base64
                     if "," in b64_data:
                         b64_data = b64_data.split(",", 1)[1]
-                        
+
                     sub_file_bytes = base64.b64decode(b64_data)
                     suffix = f"_{doc_attachment.filename}"
                     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
@@ -263,7 +254,7 @@ async def classify_claim_endpoint(
                     raise HTTPException(status_code=400, detail=f"Invalid base64 in attachment {doc_attachment.filename} of {doc.request_document_id}")
 
         logger.info(f"Starting batch classification for {len(temp_paths)} files...")
-        
+
         # 3. Offload to Process Pool
         if temp_paths:
             payload_dict = payload.model_dump() if hasattr(payload, 'model_dump') else payload.dict()
@@ -283,19 +274,19 @@ async def classify_claim_endpoint(
                 "missing_documents": [],
                 "extracted_documents": []
             }
-        
+
         duration = time.time() - start_time
         logger.info(f"Finished batch classification in {duration:.2f}s")
-        
+
         # Output exactly matches what process_claim_batch returned
         return result
-        
+
     except HTTPException:
         raise
     except Exception as e:
         logger.error(f"Error processing claim: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
-        
+
     finally:
         # 4. Cleanup tmp files
         for path in temp_paths:
