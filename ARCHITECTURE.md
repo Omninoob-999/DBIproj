@@ -32,8 +32,8 @@ graph TD
     end
     
     subgraph "Observability"
-        API -.->|Traces/Metrics| DatadogAgent[Datadog Agent]
-        DatadogAgent --> DatadogCloud[Datadog Backend]
+        API -.->|Traces/Metrics| Phoenix-Agent[Phoenix Agent]
+        Phoenix-Agent --> Cloud[Backend]
     end
 ```
 
@@ -89,7 +89,7 @@ This workflow is triggered via the `/api/v1/classify_claim` endpoint to handle c
 - **`vlm_client.py`**: Standardized interface for preparing document images and making API calls to external providers (e.g., Gemini).
 
 ### 6. Observability (`telemetry.py` & `OBSERVABILITY.md`)
-- **Provider**: Datadog (APM & LLM Observability).
+- **Provider**: Phoenix-Otel (APM & LLM Observability).
 - **Implementation**:
   - **Tracing**: Uses `ddtrace` to trace request lifecycles.
   - **LLM Observability**: Uses `LLMObs` SDK to capture specific GenAI operations (Prompts, Model Responses, etc.).
@@ -99,8 +99,7 @@ This workflow is triggered via the `/api/v1/classify_claim` endpoint to handle c
 The application is packaged as a Docker container adhering to serverless best practices.
 
 *   **Base Image**: `python:3.11-slim`
-*   **Dependency Management**: Uses `uv` for fast dependency installation.
-*   **Entrypoint**: Uses `datadog/serverless-init` to wrap the application process.
+*   **Dependency Management**: Uses `uv` for fast dependency installation..
 *   **Process**: `uvicorn` running the FastAPI app.
 
 ## Project Structure
@@ -113,7 +112,7 @@ The application is packaged as a Docker container adhering to serverless best pr
 ├── clients/             # External API interfaces (vlm_client)
 ├── config/              # Centralized configuration and prompts
 ├── schemas/             # Optional structured data schemas
-├── telemetry.py         # Datadog/Observability wrappers
+├── telemetry.py         # Observability wrappers
 ├── Dockerfile           # Container definition
 ├── requirements.txt     # Python dependencies
 ├── USAGE.md             # User guide for API usage
@@ -127,5 +126,5 @@ The application is packaged as a Docker container adhering to serverless best pr
 2.  **Preprocessing**: Server validates file type and streams it to a temporary location.
 3.  **Dispatch**: Task is submitted to `ProcessPoolExecutor`.
 4.  **Extraction**: Task calls the appropriate workflow in `workflows/` (e.g., `three_tier_process_document`), which leverages `core/`, `clients/`, and `config/` to process the document.
-5.  **Telemetry**: Traces and LLM details are pushed to Datadog asynchronously via `telemetry.py`.
+5.  **Telemetry**: Traces and LLM details are pushed to Phoenix asynchronously via auto-instrumentation
 6.  **Response**: Structured JSON is returned to the user.
