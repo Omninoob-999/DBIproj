@@ -27,7 +27,7 @@ graph TD
     VLMClient -->|API Call| GoogleGemini[Google Gemini API]
     VLMClient -->|API Call| OpenAI[OpenAI GPT-4o]
     
-    API -.->|Telemetry| Datadog
+    API -.->|Telemetry| Phoenix-Otel
 ```
 
 ## Prerequisites
