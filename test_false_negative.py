@@ -10,10 +10,12 @@ URL = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8000/api/v1/classi
 # Directory containing the test files
 TEST_DIR = "test/true_positive"
 
+
 def get_base64_of_file(filename):
     filepath = os.path.join(TEST_DIR, filename)
     with open(filepath, "rb") as f:
         return base64.b64encode(f.read()).decode('utf-8')
+
 
 # Our new payload structure
 payload = {
@@ -23,7 +25,8 @@ payload = {
     "request_documents": [
         {
             "request_document_id": "RQ-69-00103-1",
-            "activity": "ค่าที่พัก", # INTENTIONALLY WRONG (should be ค่าโดยสารเครื่องบิน)
+            "activity": "ค่าที่พัก",
+            # INTENTIONALLY WRONG (should be ค่าโดยสารเครื่องบิน)
             "amount": 135200.00,
             "paid_by": "BEN RUKTANTICHOKE",
             "expense_date_or_commit": "21/01/2026",
@@ -65,12 +68,12 @@ print(f"Sending request to {URL} with false negative data (wrong activity)...")
 try:
     response = requests.post(URL, json=payload, headers={"Content-Type": "application/json"}, params={"model_provider": "gpt-4o"})
     print(f"Status Code: {response.status_code}")
-    
+
     os.makedirs("test_result", exist_ok=True)
     out_path = os.path.join("test_result", "test_false_negative_output.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(response.json(), f, indent=2, ensure_ascii=False)
-        
+
     print(f"Response successfully written to {out_path}")
     print("Response JSON snippet:")
     print(json.dumps(response.json(), indent=2, ensure_ascii=False)[:700] + "\n...")

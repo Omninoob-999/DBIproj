@@ -15,6 +15,7 @@ dependencies = [
     "openinference-instrumentation-google-genai>=0.1.14",
     "openinference-instrumentation-langchain>=0.1.62",
     "openinference-instrumentation-openai>=0.1.44",
+    "pymongo>=4.17.0",
     "pymupdf>=1.27.2.2",
     "python-dotenv>=1.2.2",
     "python-multipart>=0.0.24",

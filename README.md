@@ -8,7 +8,7 @@ A Python-based FastAPI application designed to extract structured financial data
 -   **Compliance & Rule Engine**: Deterministic classification logic groups documents together based on configured rules (e.g., matching flight itineraries with e-receipts) and runs policy compliance checks against Thai Taxation requirements (BDI checks).
 -   **Stateless Microservice**: Optimized for serverless deployment (Google Cloud Run, AWS App Runner, Azure Container Apps).
 -   **Multi-Model Support**: Currently routes through a unified `VLMClient` supporting interactions with both **Google Gemini API** and **OpenAI GPT-4o**.
--   **Observability**: Fully instrumented with Datadog for distinct Traces, Metrics, and LLM Observability.
+-   **Observability**: Fully instrumented with Opentelemetry for distinct Traces, Metrics, and LLM Observability.
 -   **Async Processing**: Uses `ProcessPoolExecutor` for CPU-bound document processing to keep the API responsive under high-load AI tasks.
 
 ## Architecture

@@ -4,6 +4,7 @@ import tempfile
 import os
 import time
 from venv import logger
+from log_setup import setup_logging
 import phoenix
 
 from typing import List
@@ -17,13 +18,35 @@ import base64
 from workflows.three_tier import process_document as three_tier_process_document
 from workflows.claim_batch import process_claim_batch
 from phoenix.otel import register
+from db_logger import MongoQueueHandler, mongo_worker
+import threading
 import logging
 load_dotenv()
 # Ensure standard formatting for the main application
 logging.basicConfig(level=logging.INFO)
 session = phoenix.launch_app()
-
+setup_logging()
 logger = logging.getLogger("app.main")
+logging.getLogger("pymongo").setLevel(logging.WARNING)
+logging.getLogger("pymongo.serverSelection").setLevel(logging.WARNING)
+logging.getLogger("pymongo.connection").setLevel(logging.WARNING)
+logging.getLogger("pymongo.command").setLevel(logging.WARNING)
+logging.getLogger("aiosqlite").setLevel(logging.WARNING)
+
+
+# Create handler
+mongo_handler = MongoQueueHandler()
+mongo_handler.setLevel(logging.INFO)
+mongo_handler.setFormatter(logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+))
+
+# Attach to your existing logger
+logger.addHandler(mongo_handler)
+
+# Start background worker
+threading.Thread(target=mongo_worker, daemon=True).start()
+
 
 #Phoenix Otel Tracing
 tracer_provider = register(project_name="BDI_ProcessDocs", auto_instrument=True)
@@ -41,19 +64,34 @@ class ExtractionResponse(BaseModel):
     extracted_data: Dict[str, Any]
 
 
-def core_extraction_logic(file_path: str, filename: str, extractor_type: str = "gemini") -> dict:
+def core_extraction_logic(file_path: str, filename: str, extractor_type: str = "gpt-4o") -> dict:
     """
     CPU-BOUND BLOCK: This runs in a separate process.
     """
-    # Re-initialize telemetry for this worker process
-    #telemetry.setup_telemetry()
+    env = os.getenv("ENVIRONMENT", "production").lower()
+
     worker_logger = logging.getLogger("app.worker")
+
+    if not worker_logger.handlers:
+        handler = MongoQueueHandler()
+        handler.setFormatter(logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        ))
+
+        if env == "testing":
+            worker_logger.setLevel(logging.DEBUG)
+            handler.setLevel(logging.DEBUG)
+        else:
+            worker_logger.setLevel(logging.ERROR)
+            handler.setLevel(logging.ERROR)
+
+        worker_logger.addHandler(handler)
 
     try:
         # Read file content from temp path
         with open(file_path, "rb") as f:
             file_content = f.read()
-        
+
         # Process
         # Execute the heavy VLM + parsing logic synchronously
         # We assume the extraction function inside workflow knows how to handle the logic.
@@ -139,8 +177,6 @@ async def process_document(
                 print(f"Warning: Failed to delete temp file {temp_path}: {e}")
 
 
-
-
 # --- 1. Define Attachment Model ---
 
 
@@ -182,7 +218,24 @@ def core_classification_logic(file_paths: List[str], filenames: List[str], paylo
     """
     CPU-BOUND BLOCK: This runs in a separate process for classification.
     """
+    env = os.getenv("ENVIRONMENT", "production").lower()
+
     worker_logger = logging.getLogger("app.worker")
+
+    if not worker_logger.handlers:
+        handler = MongoQueueHandler()
+        handler.setFormatter(logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        ))
+
+        if env == "testing":
+            worker_logger.setLevel(logging.DEBUG)
+            handler.setLevel(logging.DEBUG)
+        else:
+            worker_logger.setLevel(logging.ERROR)
+            handler.setLevel(logging.ERROR)
+
+        worker_logger.addHandler(handler)
 
     try:
         file_contents = []

@@ -91,8 +91,7 @@ This workflow is triggered via the `/api/v1/classify_claim` endpoint to handle c
 ### 6. Observability (`telemetry.py` & `OBSERVABILITY.md`)
 - **Provider**: Phoenix-Otel (APM & LLM Observability).
 - **Implementation**:
-  - **Tracing**: Uses `ddtrace` to trace request lifecycles.
-  - **LLM Observability**: Uses `LLMObs` SDK to capture specific GenAI operations (Prompts, Model Responses, etc.).
+  - **Tracing**: Uses `otel tracer` to trace request lifecycles.
 
 ## Deployment Architecture
 
@@ -112,7 +111,6 @@ The application is packaged as a Docker container adhering to serverless best pr
 ├── clients/             # External API interfaces (vlm_client)
 ├── config/              # Centralized configuration and prompts
 ├── schemas/             # Optional structured data schemas
-├── telemetry.py         # Observability wrappers
 ├── Dockerfile           # Container definition
 ├── requirements.txt     # Python dependencies
 ├── USAGE.md             # User guide for API usage
