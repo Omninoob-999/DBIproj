@@ -50,6 +50,9 @@ OPENAI_API_KEY=your_openai_api_key
 AZURE_OPENAI_ENDPOINT=your_azure_openai_endpoint
 AZURE_OPENAI_DEPLOYMENT_NAME=your_azure_openai_deployment_name
 
+# Production/Testing Seperation:
+ENVIRONMENT = "testing" or "production"
+
 # Optional: Observability
 PHOENIX_API_KEY
 PHOENIX_COLLECTOR_ENDPOINT
@@ -79,7 +82,7 @@ The main objective of the service is to process hierarchical claims via the batc
 ### Endpoint: `POST /api/v1/classify_claim`
 
 **Query Parameters:**
-- `model_provider`: Optionally choose your LLM (`gemini` or `gpt-4o`). Defaults to `gemini`.
+- `model_provider`: Optionally choose your LLM (`gemini` or `gpt-4o`). Defaults to `gpt-4o`.
 
 **JSON Body payload (`ClaimSubmitRequest` schema):**
 - `request_id` (str): Unique identifier for the overall claim.

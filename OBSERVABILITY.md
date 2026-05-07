@@ -1,3 +1,5 @@
+#This is a removed feature.
+
 # Observability Architecture
 
 This document details the observability implementation for the Content Process API, utilizing Datadog for APM Tracing and LLM Observability.

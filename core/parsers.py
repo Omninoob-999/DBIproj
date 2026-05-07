@@ -1,5 +1,6 @@
 import json
 
+
 def _parse_json_result(result_text: str) -> dict:
     """Helper to safely parse JSON strings returned by LLMs."""
     # Clean up markdown code blocks
@@ -7,7 +8,7 @@ def _parse_json_result(result_text: str) -> dict:
         result_text = result_text.strip().split("\n", 1)[-1]
         if result_text.strip().endswith("```"):
             result_text = result_text.strip().rsplit("\n", 1)[0]
-            
+
     try:
         return json.loads(result_text)
     except json.JSONDecodeError:

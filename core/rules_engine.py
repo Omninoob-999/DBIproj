@@ -111,12 +111,12 @@ def determine_claim_category(classified_docs: List[Dict[str, Any]]) -> Dict[str,
     # Check 5: Surface Transport Group (Train, Bus, Taxi)
     # They all share the exact same required document checklist!
     transport_required = {
-        "ใบเสร็จรับเงิน/ใบกำกับภาษี หรือ บิลเงินสด", 
-        "ใบอนุมัติปฏิบัติงานนอกสถานที่ในระบบ empeo", 
-        "รายงานการเดินทาง", 
+        "ใบเสร็จรับเงิน/ใบกำกับภาษี หรือ บิลเงินสด",
+        "ใบอนุมัติปฏิบัติงานนอกสถานที่ในระบบ empeo",
+        "รายงานการเดินทาง",
         "กำหนดการ"
     }
-    
+
     if transport_required.issubset(found_classes):
         # We must rely on the VLM's extraction of the receipt_type to differentiate
         if "Train" in receipt_types:
@@ -133,6 +133,7 @@ def determine_claim_category(classified_docs: List[Dict[str, Any]]) -> Dict[str,
                 "status": "REQUIRES_MANUAL_REVIEW",
                 "message": "Found transport documents but could not determine if Train, Bus, or Taxi from the receipt."
             }
+
 
     # If we reach here, the claim is incomplete based on the matrix
     return {

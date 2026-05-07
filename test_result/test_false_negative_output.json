@@ -22,9 +22,24 @@
   "extracted_documents": [
     {
       "document_class": "ใบเสร็จรับเงิน/ใบกำกับภาษี หรือ บิลเงินสด",
-      "receipt_type": "Airplane",
+      "receipt_type": "Other",
+      "bdi_association": true,
+      "bdi_tax_id": "0994002729518",
+      "payment_date": "21/01/2026",
+      "vat_numeric_amount": 0.0,
+      "vat_thai_text_amount": null,
+      "has_signature": true,
+      "expense_details": [
+        {
+          "description": "Flight + hotel",
+          "amount": 85170.0
+        }
+      ],
       "total_amount": 85170.0,
       "confidence": 0.95,
+      "compliance_audit": [
+        "PASS"
+      ],
       "filename": "RQ-69-00103-1_E-receipt.pdf"
     },
     {
@@ -32,20 +47,20 @@
       "empeo_details": {
         "transaction_date": "21/01/2569 05:04",
         "document_number": "L260100308",
-        "employee_name": "ประภาพรรณ วิภาวรัตน์",
+        "employee_name": "ประภาพรรณ วิภาวรทิพย์",
         "employee_id": "10105",
-        "department": "สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > กิจการทั่วไป > ฝ่ายบริหารและพัฒนาทรัพยากร",
+        "department": "สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > กิจการพิเศษ > ฝ่ายบริหารจัดการ",
         "document_type": "ปฏิบัติงานต่างประเทศ",
         "duration": "03/02/2569 08:00 - 05/02/2569 17:00",
         "reason": "ร่วมงาน Hackathon in Singapore",
         "approvers": [
-          "เกศพร สุขคะ (อนุมัติ 22/01/2569 02:26)",
+          "เกศพร สุดตะ (อนุมัติ 22/01/2569 02:26)",
           "ธนกฤต จินดวร (อนุมัติ 30/01/2569 09:07)",
           "ธีรณี อจลากุล (อนุมัติ 31/01/2569 06:58)"
         ],
         "status": "อนุมัติ"
       },
-      "confidence": 0.98,
+      "confidence": 0.99,
       "filename": "RQ-69-00103-1_empeo1.pdf"
     },
     {
@@ -53,16 +68,16 @@
       "empeo_details": {
         "transaction_date": "26/01/2569 11:54",
         "document_number": "L260100379",
-        "employee_name": "เบญจ รักทิพย์โต",
+        "employee_name": "เบญจ รักชาติไทย",
         "employee_id": "10004",
-        "department": "สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > กลุ่มงานฐานข้อมูลและวิเคราะห์ข้อมูล > ฝ่ายวิจัยและนวัตกรรม",
+        "department": "สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > กลุ่มงานบูรณาการและวิเคราะห์ข้อมูล > สายข้อมูลและนวัตกรรม",
         "document_type": "ปฏิบัติงานต่างประเทศ",
         "duration": "03/02/2569 08:00 - 05/02/2569 17:00",
         "reason": "HFPG",
         "approvers": [
           "เกศพร สุดตะ (อนุมัติ 27/01/2569 12:33)",
-          "สุธี จุไรวัชรบุญ (อนุมัติ 27/01/2569 11:34)",
-          "ธีรณี องกากุล (อนุมัติ 27/01/2569 12:51)"
+          "สุธี สุไววิทยกุล (อนุมัติ 27/01/2569 11:34)",
+          "ธีรณี อจลากุล (อนุมัติ 27/01/2569 12:51)"
         ],
         "status": "อนุมัติ"
       },
@@ -74,21 +89,21 @@
       "empeo_details": {
         "transaction_date": "26/01/2569 12:03",
         "document_number": "L260100381",
-        "employee_name": "ปัณณิตา เถาโพธิ์ทอง",
+        "employee_name": "ปัณณภัค เถาโพธิ์ทอง",
         "employee_id": "10165",
-        "department": "สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > กลุ่มงานวิจัยการวิเคราะห์ข้อมูล > ฝ่ายวิจัยและพัฒนา",
+        "department": "สถาบันข้อมูลขนาดใหญ่ (องค์การมหาชน) > กลุ่มงานฐานการและวิเคราะห์ข้อมูล > ฝ่ายวิจัยและพัฒนา",
         "document_type": "ปฏิบัติงานต่างประเทศ",
         "duration": "03/02/2569 08:00 - 05/02/2569 17:00",
         "reason": "เข้าร่วมงาน Hack for Public Good (HFPG) ณ ประเทศสิงคโปร์",
         "approvers": [
           "เกศพร สุดตะ (อนุมัติ 27/01/2569 12:33)",
           "เบญจ์ รัตนไพโรจน์ (อนุมัติ 27/01/2569 06:00)",
-          "สุธี สุริวิริยะกุล (อนุมัติ 27/01/2569 06:54)",
+          "สุธี สุจิวรชัยกุล (อนุมัติ 27/01/2569 06:54)",
           "ธีรณี อจลากุล (อนุมัติ 28/01/2569 03:00)"
         ],
         "status": "อนุมัติ"
       },
-      "confidence": 0.99,
+      "confidence": 0.98,
       "filename": "RQ-69-00103-1_empeo3.pdf"
     },
     {
@@ -109,8 +124,8 @@
             "date": "February 3, 2026",
             "departure_time": "08:25",
             "arrival_time": "11:40",
-            "class": "Economy",
-            "aircraft": "Airbus A350 XWB"
+            "aircraft": "Airbus A350 XWB",
+            "class": "Economy"
           },
           {
             "flight_number": "TG414",
@@ -119,8 +134,8 @@
             "date": "February 5, 2026",
             "departure_time": "15:55",
             "arrival_time": "17:15",
-            "class": "Economy",
-            "aircraft": "Airbus A321neo"
+            "aircraft": "Airbus A321neo",
+            "class": "Economy"
           }
         ]
       },
@@ -130,27 +145,13 @@
     {
       "document_class": "กำหนดการ",
       "schedule_details": {
-        "event_title": "โครงการ Hack for Public Good (HFPG)",
+        "event_title": "Hack for Public Good (HFPG)",
         "event_dates": "3-5 กุมภาพันธ์ 2569",
         "location": "Lifelong Learning Institute (11 Eunos Road 8, Singapore 408601), ประเทศสิงคโปร์",
         "agenda_items": [
-          "วันที่อังคารที่ 3 กุมภาพันธ์ 2569",
-          "5:25-6:25 เดินทางสู่สนามบิน",
-          "8:25-11:40 มุ่งหน้าสู่ท่าอากาศยานสิงคโปร์",
-          "13:00-13:30 เดินทางสู่ Lifelong Learning Institute (สถานที่จัดงาน)",
-          "13:30-14:00 รับประทานอาหารกลางวัน",
-          "14:00-17:00 Hack for Public Good Demo Day",
-          "17:00-17:30 เดินทางสู่ที่พัก",
-          "วันพุธที่ 4 กุมภาพันธ์ 2569",
-          "8:30-9:00 เดินทางสู่ Open Government Product Office",
-          "9:00-16:00 Project showcase and presentations by regional participants (มีอาหารเช้า + กลางวัน)",
-          "16:00-16:30 เดินทางกลับที่พัก",
-          "วันพฤหัสบดีที่ 5 กุมภาพันธ์ 2569",
-          "9:30-10:00 เดินทางสู่ Open Government Product Office",
-          "10:00-12:30 พูดคุยกับทางเจ้าภาพสิงคโปร์เกี่ยวกับการร่วมงานในลักษณะทีมงาน Hackathon ของ BDI",
-          "12:30-13:30 รับประทานอาหารกลางวัน",
-          "13:30-15:45 เดินทางสู่สนามบิน",
-          "15:55-17:15 มุ่งหน้ากลับสู่ท่าอากาศยานสุวรรณภูมิ"
+          "วันที่ 3 กุมภาพันธ์ 2569: เดินทางสู่สนามบิน, ร่วมพิธีเปิดที่สถานทูตสิงคโปร์, เดินทางสู่ Lifelong Learning Institute, รับประทานอาหารกลางวัน, Hack for Public Good Demo Day, เดินทางสู่ที่พัก",
+          "วันที่ 4 กุมภาพันธ์ 2569: เดินทางสู่ Open Government Product Office, Project showcase and presentations by regional participants, เดินทางกลับที่พัก",
+          "วันที่ 5 กุมภาพันธ์ 2569: เดินทางสู่ Open Government Product Office, พูดคุยกับทีมงานสิงคโปร์เกี่ยวกับการร่วมงาน Hackathon, รับประทานอาหารกลางวัน, เดินทางสู่สนามบิน, มุ่งหน้ากลับประเทศไทย"
         ]
       },
       "confidence": 0.95,
@@ -171,7 +172,7 @@
           },
           {
             "departure_location": "สนามบิน Changi (SIN)",
-            "departure_datetime": "12:40 3 ก.พ. 69",
+            "departure_datetime": "12:10 3 ก.พ. 69",
             "arrival_location": "โรงแรม Royal Plaza on Scotts",
             "arrival_datetime": "13:07 3 ก.พ. 69",
             "activity_description": "เดินทางไปโรงแรมที่พัก"
@@ -207,30 +208,30 @@
           {
             "departure_location": "โรงแรม Royal Plaza on Scotts",
             "departure_datetime": "08:46 4 ก.พ. 69",
-            "arrival_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "arrival_location": "สถานที่จัด OGP ณ Lazada One",
             "arrival_datetime": "08:56 4 ก.พ. 69",
-            "activity_description": "เดินทางจากโรงแรมไปยังสถานที่จัดงาน OGP"
+            "activity_description": "เดินทางจากโรงแรมไปยังสถานที่จัด OGP"
           },
           {
-            "departure_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "departure_location": "สถานที่จัด OGP ณ Lazada One",
             "departure_datetime": "09:00 4 ก.พ. 69",
-            "arrival_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "arrival_location": "สถานที่จัด OGP ณ Lazada One",
             "arrival_datetime": "12:00 4 ก.พ. 69",
             "activity_description": "เข้าร่วมงาน HFPG: ASEAN Co-Lab sharing session"
           },
           {
-            "departure_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "departure_location": "สถานที่จัด OGP ณ Lazada One",
             "departure_datetime": "12:00 4 ก.พ. 69",
-            "arrival_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "arrival_location": "สถานที่จัด OGP ณ Lazada One",
             "arrival_datetime": "13:00 4 ก.พ. 69",
             "activity_description": "รับประทานอาหารกลางวัน"
           },
           {
-            "departure_location": "สถานที่จัดงาน OGP ณ Lazada One",
+            "departure_location": "สถานที่จัด OGP ณ Lazada One",
             "departure_datetime": "13:00 4 ก.พ. 69",
             "arrival_location": "Gardens by the Bay",
             "arrival_datetime": "14:00 4 ก.พ. 69",
-            "activity_description": "เดินทางจากสถานที่จัดงาน OGP ไปยัง Gardens by the Bay"
+            "activity_description": "เดินทางจากสถานที่จัด OGP ไปยัง Gardens by the Bay"
           },
           {
             "departure_location": "Gardens by the Bay",
@@ -258,7 +259,7 @@
             "departure_datetime": "10:00 5 ก.พ. 69",
             "arrival_location": "Surrey Hills Grocer - ION Orchard",
             "arrival_datetime": "12:30 5 ก.พ. 69",
-            "activity_description": "เข้าร่วมประชุมหารือความร่วมมือระหว่าง OGP และชุมชน"
+            "activity_description": "เข้าร่วมประชุมหารือความร่วมมือระหว่าง OGP และสถาบัน"
           },
           {
             "departure_location": "Surrey Hills Grocer - ION Orchard",

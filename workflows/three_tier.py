@@ -26,7 +26,7 @@ def process_threetier(file_content: bytes, filename: str, model_provider: str = 
 
         # --- Stage 1: The Extractor ---
         logger.info("Stage 1: Extractor Agent")
-        
+
         extractor_text, extractor_response = _call_vlm(
             EXTRACTOR_SYSTEM_PROMPT, 
             content_parts, 
