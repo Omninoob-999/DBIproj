@@ -3,8 +3,8 @@ import logging
 from typing import List, Dict, Any
 
 from config.prompts import CLASSIFIER_SYSTEM_PROMPT, COMPLIANCE_AUDITOR_PROMPT
-from core.parsers import _parse_json_result
-from core.rules_engine import determine_claim_category
+from core.parsers import _parse_json_result, extract_date_ranges
+from core.rules_engine import determine_claim_category, cross_reference_dates
 from clients.vlm_client import _prepare_content_parts, _call_vlm
 
 logger = logging.getLogger("app.workflows.claim_batch")
@@ -151,7 +151,60 @@ def process_claim_batch(file_contents: List[bytes], filenames: List[str], payloa
                     "message": f"Activity Mismatch: Payload activity '{req_activity}' does not match extracted classes {extracted_classes} or category '{nested_claim_cat}'"
                 })
 
-    # 3. Create top hierarchy JSON response combining final decision + doc details
+    # 3. Cross-reference dates across all documents (global pass)
+    global_date_ranges = [extract_date_ranges(doc) for doc in classified_docs]
+    global_date_warnings = cross_reference_dates(classified_docs, global_date_ranges)
+
+    # Promote date warnings into validation_results
+    for w in global_date_warnings:
+        validation_results.append({
+            "level":   "warning",
+            "check":   w.get("check"),
+            "message": w.get("message"),
+            "files":   w.get("files", []),
+        })
+
+    # 4. Per-sub-request date cross-reference
+    date_cross_reference_summary: Dict[str, Any] = {
+        "total_warnings": 0,
+        "per_request_document": {},
+    }
+
+    if payload:
+        for req_doc in payload.get("request_documents", []):
+            req_id = req_doc.get("request_document_id")
+            nested_docs = [
+                doc for doc in classified_docs
+                if str(doc.get("filename", "")).startswith(f"{req_id}_")
+            ]
+            if not nested_docs:
+                continue
+
+            nested_date_ranges = [extract_date_ranges(doc) for doc in nested_docs]
+            nested_warnings    = cross_reference_dates(nested_docs, nested_date_ranges)
+
+            if nested_warnings:
+                for w in nested_warnings:
+                    validation_results.append({
+                        "level":              "warning",
+                        "check":              w.get("check"),
+                        "request_document_id": req_id,
+                        "message":            w.get("message"),
+                        "files":              w.get("files", []),
+                    })
+
+                date_cross_reference_summary["per_request_document"][req_id] = {
+                    "warning_count": len(nested_warnings),
+                    "checks": [w.get("check") for w in nested_warnings],
+                }
+
+    total_date_warnings = len(global_date_warnings) + sum(
+        v["warning_count"]
+        for v in date_cross_reference_summary["per_request_document"].values()
+    )
+    date_cross_reference_summary["total_warnings"] = total_date_warnings
+
+    # 5. Create top hierarchy JSON response combining final decision + doc details
     status_str = final_decision.get("status", "ERROR")
     if payload and not is_valid:
         status_str = "VALIDATION_FAILED"
@@ -162,5 +215,6 @@ def process_claim_batch(file_contents: List[bytes], filenames: List[str], payloa
         "status": status_str,
         "message": final_decision.get("message", "Processed successfully."),
         "validation_results": validation_results,
+        "date_cross_reference": date_cross_reference_summary,
         "extracted_documents": classified_docs
     }

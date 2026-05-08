@@ -211,6 +211,10 @@ class ClassificationResponse(BaseModel):
     claim_category: str
     missing_documents: List[str]
     validation_results: Optional[List[Dict[str, Any]]] = Field(default_factory=list)
+    date_cross_reference: Optional[Dict[str, Any]] = Field(
+        default_factory=lambda: {"total_warnings": 0, "per_request_document": {}},
+        description="Summary of cross-document date consistency checks",
+    )
     extracted_documents: List[Dict[str, Any]]
 
 

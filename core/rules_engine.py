@@ -1,5 +1,6 @@
 import logging
-from typing import List, Dict, Any
+from datetime import date
+from typing import List, Dict, Any, Optional
 
 logger = logging.getLogger("app.core.rules_engine")
 
@@ -43,6 +44,199 @@ def validate_data(extracted_data: dict) -> List[str]:
         errors.append(f"Tax ID check failed: {str(e)}")
             
     return errors
+
+def cross_reference_dates(
+    classified_docs: List[Dict[str, Any]],
+    date_ranges: List[Dict[str, Any]],
+) -> List[Dict[str, Any]]:
+    """
+    Cross-references dates across all documents in a batch and returns a list
+    of warning dicts (never errors — non-blocking by design).
+
+    Checks performed
+    ----------------
+    1. **Empeo approval coverage** — every receipt, folio, invoice, itinerary,
+       travel-report row, and allowance form date must fall *within* the date
+       window declared by the empeo approval document.
+
+    2. **Travel-report ↔ receipt/itinerary alignment** — each departure /
+       arrival date in the travel report must have at least one matching date
+       (±0 days) in a receipt or itinerary document.
+
+    3. **Folio check-in / check-out ↔ receipt date** — the hotel folio dates
+       must overlap with or be covered by a hotel receipt's payment_date.
+
+    Each warning dict has the shape::
+
+        {
+            "level":    "warning",
+            "check":    "<check name>",
+            "message":  "<human-readable explanation>",
+            "files":    ["filename_a", "filename_b"],   # documents involved
+        }
+    """
+    warnings: List[Dict[str, Any]] = []
+
+    # ------------------------------------------------------------------ #
+    # Index documents by class for fast lookup
+    # ------------------------------------------------------------------ #
+    def _by_class(cls: str) -> List[Dict]:
+        return [r for r in date_ranges if r["doc_class"] == cls]
+
+    empeo_ranges   = _by_class("ใบอนุมัติปฏิบัติงานนอกสถานที่ในระบบ empeo")
+    receipt_ranges = _by_class("ใบเสร็จรับเงิน/ใบกำกับภาษี หรือ บิลเงินสด")
+    folio_ranges   = _by_class("รายละเอียดการเข้าพัก (Folio)")
+    travel_ranges  = _by_class("รายงานการเดินทาง")
+    itin_ranges    = _by_class("Itinerary")
+    allow_ranges   = _by_class("แบบฟอร์มการคำนวณเบี้ยเลี้ยง")
+    invoice_ranges = _by_class("ต้นฉบับใบแจ้งหนี้")
+    schedule_ranges= _by_class("กำหนดการ")
+
+    # ------------------------------------------------------------------ #
+    # Helper: build a merged empeo window from all empeo docs in the batch
+    # ------------------------------------------------------------------ #
+    def _empeo_window() -> tuple[Optional[date], Optional[date]]:
+        starts = [r["date_start"] for r in empeo_ranges if r["date_start"]]
+        ends   = [r["date_end"]   for r in empeo_ranges if r["date_end"]]
+        if not starts:
+            return None, None
+        return min(starts), max(ends) if ends else max(starts)
+
+    empeo_start, empeo_end = _empeo_window()
+
+    def _within_empeo(d: Optional[date], filename: str, label: str) -> None:
+        """Emit a warning if *d* falls outside the empeo window."""
+        if d is None or empeo_start is None:
+            return
+        win_end = empeo_end or empeo_start
+        if not (empeo_start <= d <= win_end):
+            empeo_files = [r["filename"] for r in empeo_ranges]
+            warnings.append({
+                "level":   "warning",
+                "check":   "empeo_coverage",
+                "message": (
+                    f"'{label}' date {d} in '{filename}' is outside the empeo "
+                    f"approval window {empeo_start} – {win_end}."
+                ),
+                "files": [filename] + empeo_files,
+            })
+
+    # ------------------------------------------------------------------ #
+    # Check 1 — Empeo approval coverage
+    # ------------------------------------------------------------------ #
+    if empeo_ranges:
+        # Receipts
+        for r in receipt_ranges:
+            _within_empeo(r["date_start"], r["filename"], "payment_date")
+
+        # Folios (check-in through check-out must be inside window)
+        for r in folio_ranges:
+            _within_empeo(r["date_start"], r["filename"], "check_in_date")
+            _within_empeo(r["date_end"],   r["filename"], "check_out_date")
+
+        # Allowance forms
+        for r in allow_ranges:
+            _within_empeo(r["date_start"], r["filename"], "allowance_start")
+            _within_empeo(r["date_end"],   r["filename"], "allowance_end")
+
+        # Invoices
+        for r in invoice_ranges:
+            _within_empeo(r["date_start"], r["filename"], "invoice_date")
+
+        # Itinerary flight dates
+        for r in itin_ranges:
+            _within_empeo(r["date_start"], r["filename"], "itinerary_date")
+            if r["date_end"] and r["date_end"] != r["date_start"]:
+                _within_empeo(r["date_end"], r["filename"], "itinerary_date")
+
+        # Travel report rows
+        for r in travel_ranges:
+            _within_empeo(r["date_start"], r["filename"], "travel_report_date")
+            if r["date_end"] and r["date_end"] != r["date_start"]:
+                _within_empeo(r["date_end"], r["filename"], "travel_report_date")
+
+    # ------------------------------------------------------------------ #
+    # Check 2 — Travel-report dates align with receipts or itineraries
+    # ------------------------------------------------------------------ #
+    if travel_ranges:
+        # Collect all dates that appear on receipts + itineraries
+        anchor_dates: set[date] = set()
+        for r in receipt_ranges + itin_ranges:
+            if r["date_start"]:
+                anchor_dates.add(r["date_start"])
+            if r["date_end"]:
+                anchor_dates.add(r["date_end"])
+
+        if anchor_dates:
+            for tr in travel_ranges:
+                # Extract every individual date from the travel report doc
+                tr_doc = next(
+                    (d for d in classified_docs if d.get("filename") == tr["filename"]),
+                    {}
+                )
+                itinerary_rows = tr_doc.get("travel_report_details", {}).get("itinerary", [])
+
+                from core.parsers import _parse_date_string  # local import avoids circular at module level
+
+                for i, row in enumerate(itinerary_rows):
+                    for label in ("departure_datetime", "arrival_datetime"):
+                        raw = row.get(label)
+                        if not raw:
+                            continue
+                        row_date = _parse_date_string(raw)
+                        if row_date and row_date not in anchor_dates:
+                            anchor_files = (
+                                [r["filename"] for r in receipt_ranges]
+                                + [r["filename"] for r in itin_ranges]
+                            )
+                            warnings.append({
+                                "level":   "warning",
+                                "check":   "travel_report_alignment",
+                                "message": (
+                                    f"Travel report '{tr['filename']}' row {i} "
+                                    f"{label} {row_date} ({raw!r}) has no matching "
+                                    f"date in any receipt or itinerary document."
+                                ),
+                                "files": [tr["filename"]] + anchor_files,
+                            })
+
+    # ------------------------------------------------------------------ #
+    # Check 3 — Hotel folio dates covered by a hotel receipt
+    # ------------------------------------------------------------------ #
+    hotel_receipts = [
+        r for r in receipt_ranges
+        if next(
+            (d for d in classified_docs
+             if d.get("filename") == r["filename"]
+             and d.get("receipt_type") == "Hotel"),
+            None
+        )
+    ]
+
+    for folio in folio_ranges:
+        if folio["date_start"] is None:
+            continue
+        # Look for a hotel receipt whose payment_date overlaps with check-in..check-out
+        folio_end = folio["date_end"] or folio["date_start"]
+        covered = any(
+            hr["date_start"] is not None
+            and folio["date_start"] <= hr["date_start"] <= folio_end
+            for hr in hotel_receipts
+        )
+        if not covered and hotel_receipts:
+            warnings.append({
+                "level":   "warning",
+                "check":   "folio_receipt_alignment",
+                "message": (
+                    f"Hotel folio '{folio['filename']}' covers "
+                    f"{folio['date_start']} – {folio_end} but no hotel receipt "
+                    f"payment_date falls within that window."
+                ),
+                "files": [folio["filename"]] + [r["filename"] for r in hotel_receipts],
+            })
+
+    return warnings
+
 
 def determine_claim_category(classified_docs: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
